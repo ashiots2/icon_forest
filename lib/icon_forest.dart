@@ -18,29 +18,30 @@ import 'package:icon_forest/ternav_icons_duotone.dart';
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 
-import 'mbi_linecons.dart';
-
 /// A utility class to handle icons
 class IconForest {
   /// display svg icons with [assetName] from [packageName]
-  static Widget svgAsset(String packageName, String assetName,
-      {Key? key,
-      bool matchTextDirection = false,
-      AssetBundle? bundle,
-      String? package,
-      double? width,
-      double? height,
-      BoxFit fit = BoxFit.contain,
-      AlignmentGeometry alignment = Alignment.center,
-      bool allowDrawingOutsideViewBox = false,
-      WidgetBuilder? placeholderBuilder,
-      Color? color,
-      BlendMode colorBlendMode = BlendMode.srcIn,
-      String? semanticsLabel,
-      bool excludeFromSemantics = false,
-      Clip clipBehavior = Clip.hardEdge,
-      bool cacheColorFilter = false,
-      SvgTheme? theme}) {
+  static Widget svgAsset(
+    String packageName,
+    String assetName, {
+    Key? key,
+    bool matchTextDirection = false,
+    AssetBundle? bundle,
+    String? package,
+    double? width,
+    double? height,
+    BoxFit fit = BoxFit.contain,
+    AlignmentGeometry alignment = Alignment.center,
+    bool allowDrawingOutsideViewBox = false,
+    WidgetBuilder? placeholderBuilder,
+    Color? color,
+    BlendMode colorBlendMode = BlendMode.srcIn,
+    String? semanticsLabel,
+    bool excludeFromSemantics = false,
+    Clip clipBehavior = Clip.hardEdge,
+    bool cacheColorFilter = false,
+    SvgTheme? theme,
+  }) {
     final path = p.join(
       // external library
       'packages/icon_forest/assets/images/$packageName/',
@@ -48,6 +49,26 @@ class IconForest {
       // 'assets/images/$packageName/',
       assetName,
     );
+    if (color != null) {
+      return SvgPicture.asset(
+        path,
+        key: key,
+        matchTextDirection: matchTextDirection,
+        bundle: bundle,
+        package: package,
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+        allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+        placeholderBuilder: placeholderBuilder,
+        colorFilter: ColorFilter.mode(color, colorBlendMode),
+        semanticsLabel: semanticsLabel,
+        excludeFromSemantics: excludeFromSemantics,
+        clipBehavior: clipBehavior,
+        theme: theme ?? const SvgTheme(),
+      );
+    }
     return SvgPicture.asset(
       path,
       key: key,
@@ -60,19 +81,17 @@ class IconForest {
       alignment: alignment,
       allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
       placeholderBuilder: placeholderBuilder,
-      color: color,
-      colorBlendMode: colorBlendMode,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
       clipBehavior: clipBehavior,
-      cacheColorFilter: cacheColorFilter,
-      theme: theme,
+      theme: theme ?? const SvgTheme(),
     );
   }
 }
 
 class CustomScrollBehavior extends MaterialScrollBehavior {
   const CustomScrollBehavior() : super();
+
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
